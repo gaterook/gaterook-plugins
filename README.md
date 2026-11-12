@@ -12,7 +12,7 @@ This repository is where [GateRook](https://gaterook.com) downloads optional cod
 | `keys.json` | The public halves of the keys the lists are signed with, by key id. |
 | `tools/check.mjs` | Checks the lists in this repository. It runs on every push and pull request. |
 
-No list has been published yet. The folders are ready for the first one.
+The list of connector modules is published. The plugin catalog is not published yet: its folder is ready for the first one.
 
 ## How GateRook uses a list
 
