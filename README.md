@@ -8,7 +8,7 @@ This repository is where [GateRook](https://gaterook.com) downloads optional cod
 | --- | --- |
 | `modules/index.json`, `modules/index.json.sig` | The list of GateRook's own connector modules: the connectors that aren't part of the installer and arrive when a connection needs them. |
 | `catalog/index.json`, `catalog/index.json.sig` | The plugin catalog: plugins, templates and MCP servers that a person chooses and reviews in Connectors › Catalog. |
-| [Releases](https://github.com/gaterook/geterook-plugins/releases) | The packages. One release per package version, tagged `module-<id>-<version>` or `plugin-<id>-<version>`, with the JAR as its asset. |
+| [Releases](https://github.com/gaterook/gaterook-plugins/releases) | The packages. One release per package version, tagged `module-<id>-<version>` or `plugin-<id>-<version>`, with the JAR as its asset. |
 | `keys.json` | The public halves of the keys the lists are signed with, by key id. |
 | `tools/check.mjs` | Checks the lists in this repository. It runs on every push and pull request. |
 

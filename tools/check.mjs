@@ -28,7 +28,7 @@ export const LISTS = Object.freeze({
   catalog: Object.freeze(['plugin', 'template', 'mcp-server']),
 });
 /** Where every package lives. */
-export const RELEASES = 'https://github.com/gaterook/geterook-plugins/releases/download/';
+export const RELEASES = 'https://github.com/gaterook/gaterook-plugins/releases/download/';
 export const MAX_DAYS = 90;
 
 const ID = /^[a-z][a-z0-9-]{0,47}$/;

@@ -1,5 +1,9 @@
 {
   "$comment": "The public halves of the Ed25519 keys the lists are signed with, by key id: the 32 raw bytes in base64url, as the application ships them. Public keys only.",
-  "modules": {},
-  "catalog": {}
+  "modules": {
+    "modules-2026-1": "KGh_d_U-8EMVgHQi6ev_iW1_0dOP043n_kFQdAB4upo"
+  },
+  "catalog": {
+    "catalog-2026-1": "E6a7rtoM483ZA46brHHwxaQmHHD9oCm1ca74xUkN5Ok"
+  }
 }
