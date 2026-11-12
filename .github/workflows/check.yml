@@ -1,0 +1,22 @@
+name: Check lists
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The check compares each list with the one before it.
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test tools/check.test.mjs
+      - run: node tools/check.mjs --previous HEAD~1

@@ -1,0 +1,4 @@
+# The signature of a list covers the exact bytes of index.json: Git must never convert them.
+*.json -text
+*.sig  -text
+*.jar  binary

@@ -1,0 +1,7 @@
+/ai/
+node_modules/
+.DS_Store
+# Signing keys never belong here.
+*.pem
+*.key
+*.p8
