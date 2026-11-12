@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "sequence": 1,
+  "generatedAt": "2026-11-12T21:58:21Z",
+  "expiresAt": "2027-02-10T21:58:21Z",
+  "entries": [
+    {
+      "kind": "module",
+      "id": "cassandra",
+      "version": "1.0.0",
+      "name": "Apache Cassandra",
+      "description": "Keyspaces, tables and CQL reads on Apache Cassandra and CQL-compatible services. Changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=1.2.0 & <2.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-cassandra-1.0.0/cassandra-1.0.0.jar",
+        "sha256": "fc69dbbd2e2f5cfc1096cbb3b3cf21b883c0b745a33a73dbfd54d201023fc6ae",
+        "size": 11950498
+      },
+      "types": [
+        {
+          "id": "cassandra",
+          "name": "Apache Cassandra",
+          "icon": "database",
+          "group": "Databases",
+          "description": "Keyspaces, tables and CQL reads on Apache Cassandra and CQL-compatible services. Changes wait for approval.",
+          "tools": [
+            "cassandra_list_keyspaces",
+            "cassandra_describe_table",
+            "cassandra_query",
+            "cassandra_execute"
+          ]
+        }
+      ]
+    }
+  ],
+  "revoked": []
+}
