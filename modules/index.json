@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "sequence": 1,
-  "generatedAt": "2026-11-12T21:58:21Z",
-  "expiresAt": "2027-02-10T21:58:21Z",
+  "sequence": 2,
+  "generatedAt": "2026-11-12T23:26:43Z",
+  "expiresAt": "2027-02-10T23:26:43Z",
   "entries": [
     {
       "kind": "module",
@@ -31,6 +31,36 @@
             "cassandra_describe_table",
             "cassandra_query",
             "cassandra_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "neo4j",
+      "version": "1.0.0",
+      "name": "Neo4j",
+      "description": "Cypher reads in read-only transactions, the graph's schema and its nodes and paths. Writes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=1.2.0 & <2.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-neo4j-1.0.0/neo4j-1.0.0.jar",
+        "sha256": "69a4092eaa7cde946afbed57e88a630a612c0d0070cfc68f2a4fb8570e1f530b",
+        "size": 9429498
+      },
+      "types": [
+        {
+          "id": "neo4j",
+          "name": "Neo4j",
+          "icon": "waypoints",
+          "group": "Databases",
+          "description": "Cypher reads in read-only transactions, the graph's schema and its nodes and paths. Writes wait for approval.",
+          "tools": [
+            "neo4j_schema",
+            "neo4j_query",
+            "neo4j_execute"
           ]
         }
       ]
