@@ -32,7 +32,7 @@
 
     <!-- The GateRook application this module is built against, and the version of its connector API. -->
     <gaterook.version>0.9.2</gaterook.version>
-    <connector-api.version>1.2.0</connector-api.version>
+    <connector-api.version>2.0.0</connector-api.version>
     <!-- Jackson is the module host's own: compile against the version the application ships. -->
     <jackson.version>3.1.7</jackson.version>
   </properties>
@@ -40,7 +40,7 @@
   <dependencies>
     <!-- Provided by the module host: a module never ships its own copy (the installer refuses one). -->
     <dependency>
-      <groupId>ai.msrv.gaterook</groupId>
+      <groupId>com.gaterook</groupId>
       <artifactId>connector-api</artifactId>
       <version>${connector-api.version}</version>
       <scope>provided</scope>
@@ -53,7 +53,7 @@
     </dependency>
     <!-- Build time and tests only: ModuleManifests, and the parser GateRook reads a manifest with. -->
     <dependency>
-      <groupId>ai.msrv.gaterook</groupId>
+      <groupId>com.gaterook</groupId>
       <artifactId>plugin-protocol</artifactId>
       <version>${gaterook.version}</version>
       <scope>provided</scope>
@@ -118,7 +118,7 @@
             <goals><goal>run</goal></goals>
             <configuration>
               <target>
-                <java classname="ai.msrv.gaterook.plugin.protocol.ModuleManifests" fork="true" failonerror="true"
+                <java classname="com.gaterook.plugin.protocol.ModuleManifests" fork="true" failonerror="true"
                       classpathref="maven.compile.classpath">
                   <arg value="${project.basedir}/module.json"/>
                   <arg value="${project.build.outputDirectory}/mcp-gateway-plugin.json"/>

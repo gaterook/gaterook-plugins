@@ -70,7 +70,7 @@ A module is one JAR:
 | Libraries | The classes of every library the module needs, in the same JAR. A module can't bring nested JARs. |
 | License and notice files | Those of the libraries you bring, as their licenses require. |
 
-A package may not contain the classes the host provides, because the host serves them first and a copy would be dead weight at best: `ai.msrv.gaterook.connector.api`, `ai.msrv.gaterook.plugin.protocol`, `ai.msrv.gaterook.pluginhost`, Jackson 3 (`tools.jackson`), `com.fasterxml.jackson.annotation`, PF4J (`org.pf4j`) and the SLF4J API (`org.slf4j`). Compile against the connector API and Jackson with the `provided` scope. A library that logs through SLF4J finds the host's.
+A package may not contain the classes the host provides, because the host serves them first and a copy would be dead weight at best: `com.gaterook.connector.api`, `com.gaterook.plugin.protocol`, `com.gaterook.pluginhost`, Jackson 3 (`tools.jackson`), `com.fasterxml.jackson.annotation`, PF4J (`org.pf4j`) and the SLF4J API (`org.slf4j`). Compile against the connector API and Jackson with the `provided` scope. A library that logs through SLF4J finds the host's.
 
 GateRook checks a package before a class of it loads:
 
@@ -105,7 +105,7 @@ The descriptor holds what the code doesn't say. It lies beside the module's `pom
   "moduleClass": "com.example.hello.HelloModule",
   "requires": {
     "gateway": ">=0.9.2 & <1.0.0",
-    "connectorApi": ">=1.2.0 & <2.0.0",
+    "connectorApi": ">=2.0.0 & <3.0.0",
     "javaModules": []
   },
   "access": {"hosts": [], "commands": [], "files": []},
@@ -121,7 +121,7 @@ The descriptor holds what the code doesn't say. It lies beside the module's `pom
 | `provider`, `license` | Who made the module, and its license. |
 | `moduleClass` | The entry point: a class of yours with a public no-argument constructor that implements `ConnectorModule`. |
 | `requires.gateway` | The application versions the module runs with, as a range. |
-| `requires.connectorApi` | The connector API versions it runs with. Modules need 1.2.0 or later. |
+| `requires.connectorApi` | The connector API versions it runs with. Modules need 2.0.0 or later: the API whose packages are under `com.gaterook`. |
 | `requires.javaModules` | The modules of the Java platform the code and its libraries need beyond `java.base`, such as `java.sql` or `java.net.http`. GateRook refuses a package that needs one its Java runtime lacks. |
 | `access` | Where the module goes: see [what a module may reach](#what-a-module-may-reach). |
 | `resources.maxHeapMb` | The host's Java heap, 64 to 1024 MB. |
@@ -309,7 +309,7 @@ Choose one prefix for your tools that is specific to your module or your organis
 
 One case is different: your own build of a module that GateRook's list has, under that module's id. It keeps the module's names and takes the place of GateRook's build, as an unsigned module, until you return to GateRook's build in **Connectors → Installed**.
 
-**Versions.** `requires.gateway` and `requires.connectorApi` are ranges such as `>=1.2.0 & <2.0.0`. GateRook refuses a package whose ranges don't include its own versions, and says which it has. Within a major version the connector API only grows, which is why the modules here accept every 1.x from 1.2 on. Build manifests and tools with the builders (`ConnectorManifest.builder`, `ToolDefinition.builder`), not with the records' constructors, which may gain components.
+**Versions.** `requires.gateway` and `requires.connectorApi` are ranges such as `>=2.0.0 & <3.0.0`. GateRook refuses a package whose ranges don't include its own versions, and says which it has. Within a major version the connector API only grows, which is why the modules here accept every 1.x from 1.2 on. Build manifests and tools with the builders (`ConnectorManifest.builder`, `ToolDefinition.builder`), not with the records' constructors, which may gain components.
 
 A module's own version changes whenever its package does. GateRook never replaces an installed version with another build of the same version: give a changed build a higher version in `module.json`, and install the new file. What waits for approval on the module's connections is then rejected, because the old code described it, and a tool that ran in Read only waits for the person's confirmation again.
 
@@ -329,7 +329,7 @@ mvn -B -ntp -f examples/hello/pom.xml package
 
 **Test the connector.** A connector is plain Java: call `classify`, `describeAction`, `test` and `execute` in a unit test, with a `ConnectionConfig` you make and an `ExecContext` of your own. [`HelloConnectorTest`](../examples/hello/src/test/java/com/example/hello/HelloConnectorTest.java) does that in a page, and checks that the build's manifest is one GateRook accepts.
 
-**Test the package in a module host.** The modules in this repository also load their built JAR in a real module host, started the way the core starts one, sandboxed on macOS. That proves what a unit test can't: that the package loads, that the tools the code serves are the ones the manifest declares, and that the egress rules and the sandbox let the connector do its work. See [`ClickHouseModuleHostIT`](../modules/clickhouse/src/test/java/ai/msrv/gaterook/connectors/clickhouse/ClickHouseModuleHostIT.java) for HTTP and [`H2ModuleHostIT`](../modules/h2/src/test/java/ai/msrv/gaterook/connectors/h2/H2ModuleHostIT.java) for the TCP gate.
+**Test the package in a module host.** The modules in this repository also load their built JAR in a real module host, started the way the core starts one, sandboxed on macOS. That proves what a unit test can't: that the package loads, that the tools the code serves are the ones the manifest declares, and that the egress rules and the sandbox let the connector do its work. See [`ClickHouseModuleHostIT`](../modules/clickhouse/src/test/java/com/gaterook/connectors/clickhouse/ClickHouseModuleHostIT.java) for HTTP and [`H2ModuleHostIT`](../modules/h2/src/test/java/com/gaterook/connectors/h2/H2ModuleHostIT.java) for the TCP gate.
 
 **Install it.** In GateRook, open **Connectors → Add connector → Install plugin or module** and choose the JAR. The review names the module, its connector types and tools, what it reaches and its SHA-256, and asks you to confirm that you trust it. The module's connector types then appear in **Add connection**. Add a connection, add it to an endpoint, and call a tool: it waits for your approval, as every tool of your own module does at first. **Connectors → Installed** shows the module with its version; its menu uninstalls it once no connection uses it.
 
