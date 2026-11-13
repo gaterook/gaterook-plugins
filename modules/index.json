@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "sequence": 3,
-  "generatedAt": "2026-11-13T00:26:27Z",
-  "expiresAt": "2027-02-11T00:26:27Z",
+  "sequence": 4,
+  "generatedAt": "2026-11-13T09:54:41Z",
+  "expiresAt": "2027-02-11T09:54:41Z",
   "entries": [
     {
       "kind": "module",
@@ -31,6 +31,132 @@
             "cassandra_describe_table",
             "cassandra_query",
             "cassandra_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "clickhouse",
+      "version": "1.0.0",
+      "name": "ClickHouse",
+      "description": "Analytics queries with row and time limits. Read only.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=1.2.0 & <2.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-clickhouse-1.0.0/clickhouse-1.0.0.jar",
+        "sha256": "7487d438c3c8f00383051f685c099ac9279e2051fb9c1a09b25b1b0bdefe090d",
+        "size": 57032
+      },
+      "types": [
+        {
+          "id": "clickhouse",
+          "name": "ClickHouse",
+          "icon": "database",
+          "group": "Databases",
+          "description": "Analytics queries with row and time limits. Read only.",
+          "tools": [
+            "clickhouse_query",
+            "clickhouse_list_databases",
+            "clickhouse_list_tables",
+            "clickhouse_describe_table",
+            "clickhouse_explain",
+            "clickhouse_running_queries"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "duckdb",
+      "version": "1.1.0",
+      "name": "DuckDB",
+      "description": "A DuckDB database file on this computer: read-only queries with row, memory and time limits; changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=1.2.0 & <2.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-duckdb-1.1.0/duckdb-1.1.0.jar",
+        "sha256": "be0e032554fa9f0d1fe392db336956b8cc006d14a6a55a9d9ce6ade93eda370a",
+        "size": 33685915
+      },
+      "types": [
+        {
+          "id": "duckdb",
+          "name": "DuckDB",
+          "icon": "database",
+          "group": "Databases",
+          "description": "A DuckDB database file on this computer: read-only queries with row, memory and time limits; changes wait for approval.",
+          "tools": [
+            "duckdb_query",
+            "duckdb_list_tables",
+            "duckdb_describe_table",
+            "duckdb_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "h2",
+      "version": "1.1.0",
+      "name": "H2",
+      "description": "An H2 database server: checked read-only queries with row and time limits, always rolled back; changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=1.2.0 & <2.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-h2-1.1.0/h2-1.1.0.jar",
+        "sha256": "ff2f6e870da48e9e7a263f4e813aaf1600d504df75be65696afa906cee58259e",
+        "size": 2775406
+      },
+      "types": [
+        {
+          "id": "h2",
+          "name": "H2",
+          "icon": "database",
+          "group": "Databases",
+          "description": "An H2 database server: checked read-only queries with row and time limits, always rolled back; changes wait for approval.",
+          "tools": [
+            "h2_list_tables",
+            "h2_describe_table",
+            "h2_query",
+            "h2_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "msaccess",
+      "version": "1.1.0",
+      "name": "Microsoft Access",
+      "description": "A Microsoft Access .accdb or .mdb file on this computer: read-only queries with row and time limits; changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=1.2.0 & <2.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-msaccess-1.1.0/msaccess-1.1.0.jar",
+        "sha256": "a15b394cef4848ac55d00efdef9bfcb06b463bf649456bf82495e6f689878167",
+        "size": 3566458
+      },
+      "types": [
+        {
+          "id": "msaccess",
+          "name": "Microsoft Access",
+          "icon": "database",
+          "group": "Databases",
+          "description": "A Microsoft Access .accdb or .mdb file on this computer: read-only queries with row and time limits; changes wait for approval.",
+          "tools": [
+            "access_list_tables",
+            "access_describe_table",
+            "access_query",
+            "access_execute"
           ]
         }
       ]
