@@ -8,7 +8,7 @@
   "moduleClass": "com.example.hello.HelloModule",
   "requires": {
     "gateway": ">=0.9.2 & <1.0.0",
-    "connectorApi": ">=1.2.0 & <2.0.0",
+    "connectorApi": ">=2.0.0 & <3.0.0",
     "javaModules": []
   },
   "access": {

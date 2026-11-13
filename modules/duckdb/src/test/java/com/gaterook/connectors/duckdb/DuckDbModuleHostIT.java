@@ -51,7 +51,7 @@ import tools.jackson.databind.JsonNode;
  */
 class DuckDbModuleHostIT {
 
-  private static final String GENERATION = "duckdb@1.1.0";
+  private static final String GENERATION = "duckdb@2.0.0";
 
   @TempDir
   Path temp;
@@ -149,7 +149,7 @@ class DuckDbModuleHostIT {
   // ── The host ────────────────────────────────────────────────────────────────────────────────────────────────
 
   private static Path jar() {
-    return Path.of(System.getProperty("gateway.duckdbJar", "target/duckdb-1.1.0.jar"));
+    return Path.of(System.getProperty("gateway.duckdbJar", "target/duckdb-2.0.0.jar"));
   }
 
   private Messages.Loaded start(boolean sandbox) throws Exception {

@@ -23,7 +23,7 @@ class ManifestTest {
   void theManifestParsesAndTheCodeServesExactlyItsTools() throws Exception {
     PluginManifest manifest = PluginManifest.parse(TestCalls.manifest());
     assertThat(manifest.id()).isEqualTo("h2");
-    assertThat(manifest.version()).isEqualTo("1.1.0");
+    assertThat(manifest.version()).isEqualTo("2.0.0");
     assertThat(manifest.name()).isEqualTo("H2");
     assertThat(manifest.icon()).isEqualTo("database");
     assertThat(manifest.group()).isEqualTo("Databases");
@@ -31,7 +31,7 @@ class ManifestTest {
     assertThat(manifest.moduleClass()).isEqualTo(H2Module.class.getName());
     assertThat(manifest.requires().javaModules()).containsExactly("java.sql");
     // A module needs the connector API that has modules (1.2), which is past the one that has the TCP gate (1.1).
-    assertThat(manifest.requires().connectorApi()).isEqualTo(">=1.2.0 & <2.0.0");
+    assertThat(manifest.requires().connectorApi()).isEqualTo(">=2.0.0 & <3.0.0");
 
     Map<String, String> served = new LinkedHashMap<>();
     for (ToolDefinition t : new H2Connector(TestCalls.definition(), false).manifest().tools()) {

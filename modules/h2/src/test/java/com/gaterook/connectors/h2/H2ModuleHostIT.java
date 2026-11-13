@@ -53,7 +53,7 @@ import tools.jackson.databind.node.ObjectNode;
  */
 class H2ModuleHostIT {
 
-  private static final String GENERATION = "h2@1.1.0";
+  private static final String GENERATION = "h2@2.0.0";
   private static final List<Integer> CORE_PORTS = List.of(7465, 7466);
 
   @TempDir
@@ -159,7 +159,7 @@ class H2ModuleHostIT {
   }
 
   private static Path jar() {
-    return Path.of(System.getProperty("gateway.h2Jar", "target/h2-1.1.0.jar"));
+    return Path.of(System.getProperty("gateway.h2Jar", "target/h2-2.0.0.jar"));
   }
 
   private static boolean mac() {

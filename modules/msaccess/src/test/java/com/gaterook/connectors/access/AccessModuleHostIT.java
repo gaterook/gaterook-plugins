@@ -50,7 +50,7 @@ import tools.jackson.databind.JsonNode;
  */
 class AccessModuleHostIT {
 
-  private static final String GENERATION = "msaccess@1.1.0";
+  private static final String GENERATION = "msaccess@2.0.0";
 
   @TempDir
   Path temp;
@@ -140,7 +140,7 @@ class AccessModuleHostIT {
   // ── The host ────────────────────────────────────────────────────────────────────────────────────────────────
 
   private static Path jar() {
-    return Path.of(System.getProperty("gateway.accessJar", "target/msaccess-1.1.0.jar"));
+    return Path.of(System.getProperty("gateway.accessJar", "target/msaccess-2.0.0.jar"));
   }
 
   private Messages.Loaded start(boolean sandbox) throws Exception {

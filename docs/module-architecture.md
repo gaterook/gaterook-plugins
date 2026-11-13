@@ -105,7 +105,7 @@ The descriptor holds what the code doesn't say. It lies beside the module's `pom
   "moduleClass": "com.example.hello.HelloModule",
   "requires": {
     "gateway": ">=0.9.2 & <1.0.0",
-    "connectorApi": ">=1.2.0 & <2.0.0",
+    "connectorApi": ">=2.0.0 & <3.0.0",
     "javaModules": []
   },
   "access": {"hosts": [], "commands": [], "files": []},
@@ -121,7 +121,7 @@ The descriptor holds what the code doesn't say. It lies beside the module's `pom
 | `provider`, `license` | Who made the module, and its license. |
 | `moduleClass` | The entry point: a class of yours with a public no-argument constructor that implements `ConnectorModule`. |
 | `requires.gateway` | The application versions the module runs with, as a range. |
-| `requires.connectorApi` | The connector API versions it runs with. Modules need 1.2.0 or later. |
+| `requires.connectorApi` | The connector API versions it runs with. Modules need 2.0.0 or later: the API whose packages are under `com.gaterook`. |
 | `requires.javaModules` | The modules of the Java platform the code and its libraries need beyond `java.base`, such as `java.sql` or `java.net.http`. GateRook refuses a package that needs one its Java runtime lacks. |
 | `access` | Where the module goes: see [what a module may reach](#what-a-module-may-reach). |
 | `resources.maxHeapMb` | The host's Java heap, 64 to 1024 MB. |
@@ -309,7 +309,7 @@ Choose one prefix for your tools that is specific to your module or your organis
 
 One case is different: your own build of a module that GateRook's list has, under that module's id. It keeps the module's names and takes the place of GateRook's build, as an unsigned module, until you return to GateRook's build in **Connectors → Installed**.
 
-**Versions.** `requires.gateway` and `requires.connectorApi` are ranges such as `>=1.2.0 & <2.0.0`. GateRook refuses a package whose ranges don't include its own versions, and says which it has. Within a major version the connector API only grows, which is why the modules here accept every 1.x from 1.2 on. Build manifests and tools with the builders (`ConnectorManifest.builder`, `ToolDefinition.builder`), not with the records' constructors, which may gain components.
+**Versions.** `requires.gateway` and `requires.connectorApi` are ranges such as `>=2.0.0 & <3.0.0`. GateRook refuses a package whose ranges don't include its own versions, and says which it has. Within a major version the connector API only grows, which is why the modules here accept every 1.x from 1.2 on. Build manifests and tools with the builders (`ConnectorManifest.builder`, `ToolDefinition.builder`), not with the records' constructors, which may gain components.
 
 A module's own version changes whenever its package does. GateRook never replaces an installed version with another build of the same version: give a changed build a higher version in `module.json`, and install the new file. What waits for approval on the module's connections is then rejected, because the old code described it, and a tool that ran in Read only waits for the person's confirmation again.
 

@@ -22,7 +22,7 @@ class ManifestTest {
   void theManifestParsesAndTheCodeServesExactlyItsTools() throws Exception {
     PluginManifest manifest = PluginManifest.parse(TestCalls.manifest());
     assertThat(manifest.id()).isEqualTo("clickhouse");
-    assertThat(manifest.version()).isEqualTo("1.0.0");
+    assertThat(manifest.version()).isEqualTo("2.0.0");
     assertThat(manifest.name()).isEqualTo("ClickHouse");
     assertThat(manifest.icon()).isEqualTo("database");
     assertThat(manifest.group()).isEqualTo("Databases");
