@@ -1,6 +1,12 @@
 /ai/
 node_modules/
 .DS_Store
+# Build output.
+target/
+# Editors.
+.idea/
+*.iml
+.vscode/
 # Signing keys never belong here.
 *.pem
 *.key

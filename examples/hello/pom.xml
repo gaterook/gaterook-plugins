@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The smallest connector module (docs/module-architecture.md), with a build that stands on its own: copy this folder,
+  rename what is named hello, and you have the start of your module. Nothing here inherits from another build.
+
+  `mvn package` writes target/hello-<version>.jar, the one file GateRook installs:
+    1. the compiler builds the module's classes against the connector API, which the module host provides at run time;
+    2. ModuleManifests writes the package's manifest (mcp-gateway-plugin.json) from module.json and from the
+       connectors the module's own class gives, so the manifest can't disagree with the code;
+    3. the shade plugin puts the classes, the manifest and the libraries the module brings into one JAR, without
+       anything the host provides.
+
+  The two GateRook artifacts come from the local Maven repository: build the application once (README.md of this
+  repository says how).
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>hello-module</artifactId>
+  <!-- The module's version: keep it equal to "version" in module.json (the test checks it). -->
+  <version>1.0.0</version>
+  <name>Hello · an example connector module</name>
+
+  <properties>
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- A fixed time on every entry of the JAR: the same sources then give the same bytes. -->
+    <project.build.outputTimestamp>2026-01-01T00:00:00Z</project.build.outputTimestamp>
+    <maven.deploy.skip>true</maven.deploy.skip>
+
+    <!-- The GateRook application this module is built against, and the version of its connector API. -->
+    <gaterook.version>0.9.2</gaterook.version>
+    <connector-api.version>1.2.0</connector-api.version>
+    <!-- Jackson is the module host's own: compile against the version the application ships. -->
+    <jackson.version>3.1.7</jackson.version>
+  </properties>
+
+  <dependencies>
+    <!-- Provided by the module host: a module never ships its own copy (the installer refuses one). -->
+    <dependency>
+      <groupId>ai.msrv.gaterook</groupId>
+      <artifactId>connector-api</artifactId>
+      <version>${connector-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>tools.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- Build time and tests only: ModuleManifests, and the parser GateRook reads a manifest with. -->
+    <dependency>
+      <groupId>ai.msrv.gaterook</groupId>
+      <artifactId>plugin-protocol</artifactId>
+      <version>${gaterook.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- A library your module needs goes here without a scope: the shade plugin puts it into the JAR. -->
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>6.0.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <version>6.0.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.27.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>hello-${project.version}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.15.0</version>
+        <configuration>
+          <parameters>true</parameters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.6</version>
+        <configuration>
+          <systemPropertyVariables>
+            <module.build.version>${project.version}</module.build.version>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <!-- The manifest, written from module.json and the connectors of the module's class. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>module-manifest</id>
+            <phase>process-classes</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <target>
+                <java classname="ai.msrv.gaterook.plugin.protocol.ModuleManifests" fork="true" failonerror="true"
+                      classpathref="maven.compile.classpath">
+                  <arg value="${project.basedir}/module.json"/>
+                  <arg value="${project.build.outputDirectory}/mcp-gateway-plugin.json"/>
+                </java>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!--
+        One JAR: the module's classes and the libraries it brings. Provided dependencies stay out by themselves; the
+        filter also leaves out what would only describe the build (and signatures of libraries, which no longer hold
+        once their classes are repackaged).
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.6.2</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals><goal>shade</goal></goals>
+            <configuration>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                    <exclude>META-INF/maven/**</exclude>
+                    <exclude>module-info.class</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

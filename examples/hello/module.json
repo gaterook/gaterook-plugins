@@ -1,0 +1,24 @@
+{
+  "id": "hello",
+  "version": "1.0.0",
+  "name": "Hello",
+  "provider": "Example",
+  "license": "Apache-2.0",
+  "description": "Greets by name and keeps one-line notes in its own folder. The smallest connector module.",
+  "moduleClass": "com.example.hello.HelloModule",
+  "requires": {
+    "gateway": ">=0.9.2 & <1.0.0",
+    "connectorApi": ">=1.2.0 & <2.0.0",
+    "javaModules": []
+  },
+  "access": {
+    "hosts": [],
+    "commands": [],
+    "files": []
+  },
+  "resources": {
+    "maxHeapMb": 64,
+    "maxMetaspaceMb": 64,
+    "maxInFlight": 4
+  }
+}

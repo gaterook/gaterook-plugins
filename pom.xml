@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The build of the connector modules whose source lives in this repository (docs/module-architecture.md): one Maven
+  module per connector module under modules/, and the smallest possible one under examples/.
+
+  A connector module is built against three artifacts of the GateRook application, which this build takes from the
+  local Maven repository (README.md says how they get there):
+
+    connector-api     the connector interfaces a module implements; the module host provides them at run time
+    plugin-protocol   build time only: ModuleManifests writes a package's manifest from the module's own connectors
+    plugin-host       tests only: the process a module runs in, started by the tests that load a built package
+
+  Nothing else of the application is used, and nothing here inherits from its build. This file pins what decides a
+  package's bytes: the compiler's settings, the plugins that put the package together and the time on its entries.
+  The same sources then give the same bytes, and modules/modules.lock.json records the SHA-256 of every released
+  version (tools/modules.mjs).
+
+  This artifact is never released; its version only ties the modules to this file.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ai.msrv.gaterook</groupId>
+  <artifactId>gaterook-modules</artifactId>
+  <version>1</version>
+  <packaging>pom</packaging>
+  <name>GateRook · Connector modules</name>
+  <url>https://github.com/gaterook/gaterook-plugins</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <modules>
+    <module>modules/clickhouse</module>
+    <module>modules/duckdb</module>
+    <module>modules/h2</module>
+    <module>modules/msaccess</module>
+    <module>examples/hello</module>
+  </modules>
+
+  <properties>
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!--
+      Reproducible archives: every entry of every package gets this time, so the same sources give the same bytes.
+      It changes only together with a new version of every module.
+    -->
+    <project.build.outputTimestamp>2026-11-12T00:00:00Z</project.build.outputTimestamp>
+    <maven.deploy.skip>true</maven.deploy.skip>
+
+    <!-- The application the modules are built against: its version, and the version of its connector API. -->
+    <gaterook.version>0.9.2</gaterook.version>
+    <connector-api.version>1.2.0</connector-api.version>
+    <!-- Jackson is the module host's, served parent-first: the version the application ships. -->
+    <jackson.version>3.1.7</jackson.version>
+
+    <!-- What the modules bring themselves. -->
+    <duckdb-jdbc.version>2.0.0.1</duckdb-jdbc.version>
+    <h2.version>2.5.252</h2.version>
+    <ucanaccess.version>5.3.0</ucanaccess.version>
+    <jackcess.version>5.2.0</jackcess.version>
+    <hsqldb.version>2.7.4</hsqldb.version>
+
+    <!-- Tests. -->
+    <junit.version>6.0.3</junit.version>
+    <assertj.version>3.27.7</assertj.version>
+    <okhttp.version>5.5.1</okhttp.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>ai.msrv.gaterook</groupId>
+        <artifactId>connector-api</artifactId>
+        <version>${connector-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ai.msrv.gaterook</groupId>
+        <artifactId>plugin-protocol</artifactId>
+        <version>${gaterook.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.duckdb</groupId>
+        <artifactId>duckdb_jdbc</artifactId>
+        <version>${duckdb-jdbc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${h2.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.spannm</groupId>
+        <artifactId>ucanaccess</artifactId>
+        <version>${ucanaccess.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.spannm</groupId>
+        <artifactId>jackcess</artifactId>
+        <version>${jackcess.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>${hsqldb.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>mockwebserver3</artifactId>
+        <version>${okhttp.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.5.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.6.3</version>
+        </plugin>
+        <!-- @name@ in a resource is replaced with the build's property; ${…} is left as it is. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.5.0</version>
+          <configuration>
+            <propertiesEncoding>UTF-8</propertiesEncoding>
+            <delimiters>
+              <delimiter>@</delimiter>
+            </delimiters>
+            <useDefaultDelimiters>false</useDefaultDelimiters>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.15.0</version>
+          <configuration>
+            <parameters>true</parameters>
+            <compilerArgs>
+              <arg>-Xlint:all,-processing</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.5.6</version>
+          <configuration>
+            <argLine>--enable-native-access=ALL-UNNAMED</argLine>
+          </configuration>
+        </plugin>
+        <!-- The tests named *IT run after `package`: they load the built package in a real module host. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.5.6</version>
+          <configuration>
+            <argLine>--enable-native-access=ALL-UNNAMED</argLine>
+            <!-- The package replaced the plain jar: the tests' own class path still needs the module's classes. -->
+            <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+            <systemPropertyVariables>
+              <gateway.pluginHostJar>${project.build.directory}/plugin-host/plugin-host.jar</gateway.pluginHostJar>
+            </systemPropertyVariables>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.5.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.4</version>
+        </plugin>
+        <!--
+          The package's manifest (mcp-gateway-plugin.json), written from module.json and from the connectors the
+          module's class gives: the file can't disagree with the code. A module that lists this plugin gets the step.
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>3.2.0</version>
+          <executions>
+            <execution>
+              <id>module-manifest</id>
+              <phase>process-classes</phase>
+              <goals><goal>run</goal></goals>
+              <configuration>
+                <target>
+                  <java classname="ai.msrv.gaterook.plugin.protocol.ModuleManifests" fork="true" failonerror="true"
+                        classpathref="maven.compile.classpath">
+                    <arg value="${project.basedir}/module.json"/>
+                    <arg value="${project.build.outputDirectory}/mcp-gateway-plugin.json"/>
+                  </java>
+                </target>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Each module says itself what its package holds: see its own pom. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.6.2</version>
+        </plugin>
+        <!--
+          The module host the *IT tests start, copied next to the tests and never on a class path. A module that lists
+          this plugin gets the step.
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.10.0</version>
+          <executions>
+            <execution>
+              <id>copy-plugin-host</id>
+              <phase>pre-integration-test</phase>
+              <goals><goal>copy</goal></goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>ai.msrv.gaterook</groupId>
+                    <artifactId>plugin-host</artifactId>
+                    <version>${gaterook.version}</version>
+                    <destFileName>plugin-host.jar</destFileName>
+                  </artifactItem>
+                </artifactItems>
+                <outputDirectory>${project.build.directory}/plugin-host</outputDirectory>
+                <excludeTransitive>true</excludeTransitive>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-build</id>
+            <goals><goal>enforce</goal></goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.9,)</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[25,)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

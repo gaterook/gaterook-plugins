@@ -1,4 +1,4 @@
-name: Check lists
+name: Check lists and modules
 
 on:
   push:
@@ -18,5 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node --test tools/check.test.mjs
+      - run: node --test tools/check.test.mjs tools/modules.test.mjs
       - run: node tools/check.mjs --previous HEAD~1
+      # The module folders, the build's module list, the lock and the published list agree. No build, no Java.
+      - run: node tools/modules.mjs check
