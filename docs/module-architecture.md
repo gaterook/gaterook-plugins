@@ -70,7 +70,7 @@ A module is one JAR:
 | Libraries | The classes of every library the module needs, in the same JAR. A module can't bring nested JARs. |
 | License and notice files | Those of the libraries you bring, as their licenses require. |
 
-A package may not contain the classes the host provides, because the host serves them first and a copy would be dead weight at best: `ai.msrv.gaterook.connector.api`, `ai.msrv.gaterook.plugin.protocol`, `ai.msrv.gaterook.pluginhost`, Jackson 3 (`tools.jackson`), `com.fasterxml.jackson.annotation`, PF4J (`org.pf4j`) and the SLF4J API (`org.slf4j`). Compile against the connector API and Jackson with the `provided` scope. A library that logs through SLF4J finds the host's.
+A package may not contain the classes the host provides, because the host serves them first and a copy would be dead weight at best: `com.gaterook.connector.api`, `com.gaterook.plugin.protocol`, `com.gaterook.pluginhost`, Jackson 3 (`tools.jackson`), `com.fasterxml.jackson.annotation`, PF4J (`org.pf4j`) and the SLF4J API (`org.slf4j`). Compile against the connector API and Jackson with the `provided` scope. A library that logs through SLF4J finds the host's.
 
 GateRook checks a package before a class of it loads:
 
@@ -329,7 +329,7 @@ mvn -B -ntp -f examples/hello/pom.xml package
 
 **Test the connector.** A connector is plain Java: call `classify`, `describeAction`, `test` and `execute` in a unit test, with a `ConnectionConfig` you make and an `ExecContext` of your own. [`HelloConnectorTest`](../examples/hello/src/test/java/com/example/hello/HelloConnectorTest.java) does that in a page, and checks that the build's manifest is one GateRook accepts.
 
-**Test the package in a module host.** The modules in this repository also load their built JAR in a real module host, started the way the core starts one, sandboxed on macOS. That proves what a unit test can't: that the package loads, that the tools the code serves are the ones the manifest declares, and that the egress rules and the sandbox let the connector do its work. See [`ClickHouseModuleHostIT`](../modules/clickhouse/src/test/java/ai/msrv/gaterook/connectors/clickhouse/ClickHouseModuleHostIT.java) for HTTP and [`H2ModuleHostIT`](../modules/h2/src/test/java/ai/msrv/gaterook/connectors/h2/H2ModuleHostIT.java) for the TCP gate.
+**Test the package in a module host.** The modules in this repository also load their built JAR in a real module host, started the way the core starts one, sandboxed on macOS. That proves what a unit test can't: that the package loads, that the tools the code serves are the ones the manifest declares, and that the egress rules and the sandbox let the connector do its work. See [`ClickHouseModuleHostIT`](../modules/clickhouse/src/test/java/com/gaterook/connectors/clickhouse/ClickHouseModuleHostIT.java) for HTTP and [`H2ModuleHostIT`](../modules/h2/src/test/java/com/gaterook/connectors/h2/H2ModuleHostIT.java) for the TCP gate.
 
 **Install it.** In GateRook, open **Connectors → Add connector → Install plugin or module** and choose the JAR. The review names the module, its connector types and tools, what it reaches and its SHA-256, and asks you to confirm that you trust it. The module's connector types then appear in **Add connection**. Add a connection, add it to an endpoint, and call a tool: it waits for your approval, as every tool of your own module does at first. **Connectors → Installed** shows the module with its version; its menu uninstalls it once no connection uses it.
 

@@ -21,7 +21,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ai.msrv.gaterook</groupId>
+  <groupId>com.gaterook</groupId>
   <artifactId>gaterook-modules</artifactId>
   <version>1</version>
   <packaging>pom</packaging>
@@ -76,12 +76,12 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>ai.msrv.gaterook</groupId>
+        <groupId>com.gaterook</groupId>
         <artifactId>connector-api</artifactId>
         <version>${connector-api.version}</version>
       </dependency>
       <dependency>
-        <groupId>ai.msrv.gaterook</groupId>
+        <groupId>com.gaterook</groupId>
         <artifactId>plugin-protocol</artifactId>
         <version>${gaterook.version}</version>
       </dependency>
@@ -236,7 +236,7 @@
               <goals><goal>run</goal></goals>
               <configuration>
                 <target>
-                  <java classname="ai.msrv.gaterook.plugin.protocol.ModuleManifests" fork="true" failonerror="true"
+                  <java classname="com.gaterook.plugin.protocol.ModuleManifests" fork="true" failonerror="true"
                         classpathref="maven.compile.classpath">
                     <arg value="${project.basedir}/module.json"/>
                     <arg value="${project.build.outputDirectory}/mcp-gateway-plugin.json"/>
@@ -268,7 +268,7 @@
               <configuration>
                 <artifactItems>
                   <artifactItem>
-                    <groupId>ai.msrv.gaterook</groupId>
+                    <groupId>com.gaterook</groupId>
                     <artifactId>plugin-host</artifactId>
                     <version>${gaterook.version}</version>
                     <destFileName>plugin-host.jar</destFileName>

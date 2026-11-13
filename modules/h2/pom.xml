@@ -19,7 +19,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>ai.msrv.gaterook</groupId>
+    <groupId>com.gaterook</groupId>
     <artifactId>gaterook-modules</artifactId>
     <version>1</version>
     <relativePath>../../pom.xml</relativePath>
@@ -36,7 +36,7 @@
   <dependencies>
     <!-- The host serves both parent-first: a module never ships its own copy (the installer refuses one). -->
     <dependency>
-      <groupId>ai.msrv.gaterook</groupId>
+      <groupId>com.gaterook</groupId>
       <artifactId>connector-api</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -71,7 +71,7 @@
       connector, and the tests read it as the core and the host do.
     -->
     <dependency>
-      <groupId>ai.msrv.gaterook</groupId>
+      <groupId>com.gaterook</groupId>
       <artifactId>plugin-protocol</artifactId>
       <scope>provided</scope>
     </dependency>

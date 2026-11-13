@@ -1,8 +1,8 @@
 package com.example.hello;
 
-import ai.msrv.gaterook.connector.api.Connector;
-import ai.msrv.gaterook.connector.api.ConnectorModule;
-import ai.msrv.gaterook.connector.api.ModuleContext;
+import com.gaterook.connector.api.Connector;
+import com.gaterook.connector.api.ConnectorModule;
+import com.gaterook.connector.api.ModuleContext;
 import java.util.List;
 
 /**
