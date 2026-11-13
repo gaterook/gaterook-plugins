@@ -52,8 +52,8 @@ All connector types of one module share one host process. The host starts on the
 
 1. An AI app calls a tool on an endpoint. The core validates the arguments against the tool's `inputSchema`, resolves `connection` and removes it from the arguments.
 2. The core asks the module to **classify** the call: a read, a change or a refusal. Classification does no I/O and sees no secret. A classification that doesn't arrive is a refusal.
-3. The core applies the policy and the tool's mode on that endpoint. A read in **Read only** or **Bypass** runs at once. A change waits for a person unless the tool is in **Bypass**.
-4. For a call that waits, the core asks the module to **describe** it: the exact action, byte for byte what will run. That description is what the person approves, and its digest binds the approval to the call.
+3. The core applies the policy and the tool's mode on that endpoint. A read runs at once when the tool is in **Read only** or **Bypass**. A change, and every call of a tool in **Approval**, waits for a person; only **Bypass** lets a change run without one.
+4. For a call that waits, the core asks the module to **describe** it: the exact action, byte for byte what will run. A person approves that action, and its digest binds the approval to the call. For a module GateRook didn't sign, the person approves the call's arguments instead, with the module's description beside them ([GateRook's modules and yours](#gaterooks-modules-and-yours)).
 5. The core asks the module to **execute** the call, with a context that says whether it is approved. While the call runs, the module may ask the core for the connection's secrets and may reach only what the call's grant allows.
 6. The core masks and bounds the result, writes the audit record and answers the AI app.
 
@@ -228,7 +228,7 @@ The rule for a tool that changes something has three parts, and a module impleme
 
 **Classify.** Say what the call is before anything runs. The classifier is the place for the module's own rules, such as "one statement" or "no file functions": return `Classification.deny` with a rule id from `policy.rule("…")` and words the agent can act on. Refuse what you can't read with certainty.
 
-**Describe.** `describeAction` returns an `ActionPreview`: the text that will run, the target, a one-line summary and optional fields, impact and warnings. Put what `execute` needs into the preview's `payload`. The core stores it with the approval and hands it back as `ctx.approvedPayload()`.
+**Describe.** `describeAction` returns an `ActionPreview`: the text that will run, the target, a one-line summary and optional fields, impact and warnings. A preview may carry a `payload` with what `execute` needs. For one of GateRook's own modules the core stores it with the approval and hands it back as `ctx.approvedPayload()`. For a module of your own the person approves the call's arguments themselves, with your description beside them as not verified, and the approved call is what `execute` receives. So write `execute` to work from the call's arguments when no payload comes back.
 
 **Execute.** Refuse a change unless `ctx.approved()`, and run what was approved rather than whatever the arguments say now:
 
@@ -301,13 +301,15 @@ A module of your own is a full connector for the person who installs it. The dif
 
 **Names.** A module of your own may not take a name that is somebody else's:
 
-- its module id and connector type ids are not those of a connector of the application, of another installed package or of a module in GateRook's list;
+- its connector type ids are not those of a connector of the application, of another installed package or of another module in GateRook's list;
 - none of its tools has the name of another connector's tool;
 - none of its tools starts with a prefix that the tools of another connector start with. The prefix is the name up to and including the first underscore: `sql_`, `ssh_`, `mongo_`, `duckdb_` and so on are taken.
 
 Choose one prefix for your tools that is specific to your module or your organisation, and use it for the module id too. GateRook says which name is taken when it refuses a package.
 
-**Versions.** `requires.gateway` and `requires.connectorApi` are ranges such as `>=1.2.0 & <2.0.0`. GateRook refuses a package whose ranges don't include its own versions, and says which it has. The connector API follows semantic versioning: a module built against 1.2 runs with every 1.x from 1.2 on.
+One case is different: your own build of a module that GateRook's list has, under that module's id. It keeps the module's names and takes the place of GateRook's build, as an unsigned module, until you return to GateRook's build in **Connectors → Installed**.
+
+**Versions.** `requires.gateway` and `requires.connectorApi` are ranges such as `>=1.2.0 & <2.0.0`. GateRook refuses a package whose ranges don't include its own versions, and says which it has. Within a major version the connector API only grows, which is why the modules here accept every 1.x from 1.2 on. Build manifests and tools with the builders (`ConnectorManifest.builder`, `ToolDefinition.builder`), not with the records' constructors, which may gain components.
 
 A module's own version changes whenever its package does. GateRook never replaces an installed version with another build of the same version: give a changed build a higher version in `module.json`, and install the new file. What waits for approval on the module's connections is then rejected, because the old code described it, and a tool that ran in Read only waits for the person's confirmation again.
 
