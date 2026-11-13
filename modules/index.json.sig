@@ -1,1 +1,1 @@
-{"keyId":"modules-2026-1","alg":"Ed25519","sig":"g4T9dAYylpFv1/nqQorc7ZOLhBA4lgogmpB3YXDK5QAjbg70UWDAfVr7QY6m7YavDrbwAc8WBS1jNvyGBi8tBw=="}
+{"keyId":"modules-2026-1","alg":"Ed25519","sig":"0hgTdRUBtZtcz8iMRb46DWGyQgXL1MchsWPNXG4rlPInf+XwOOpvYz1WzTJIqYU+GeuNncu5Rt4JRLz16eHKCQ=="}

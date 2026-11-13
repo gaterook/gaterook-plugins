@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "sequence": 4,
-  "generatedAt": "2026-11-13T09:54:41Z",
-  "expiresAt": "2027-02-11T09:54:41Z",
+  "sequence": 5,
+  "generatedAt": "2026-11-13T14:42:23Z",
+  "expiresAt": "2027-02-11T14:42:23Z",
   "entries": [
     {
       "kind": "module",
@@ -18,6 +18,37 @@
         "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-cassandra-1.0.0/cassandra-1.0.0.jar",
         "sha256": "fc69dbbd2e2f5cfc1096cbb3b3cf21b883c0b745a33a73dbfd54d201023fc6ae",
         "size": 11950498
+      },
+      "types": [
+        {
+          "id": "cassandra",
+          "name": "Apache Cassandra",
+          "icon": "database",
+          "group": "Databases",
+          "description": "Keyspaces, tables and CQL reads on Apache Cassandra and CQL-compatible services. Changes wait for approval.",
+          "tools": [
+            "cassandra_list_keyspaces",
+            "cassandra_describe_table",
+            "cassandra_query",
+            "cassandra_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "cassandra",
+      "version": "2.0.0",
+      "name": "Apache Cassandra",
+      "description": "Keyspaces, tables and CQL reads on Apache Cassandra and CQL-compatible services. Changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-cassandra-2.0.0/cassandra-2.0.0.jar",
+        "sha256": "524e3613049630d9a18f59dd25bb83dd51a499d0a4160a55d77e63b44cdfc4b0",
+        "size": 11948661
       },
       "types": [
         {
@@ -70,6 +101,39 @@
     },
     {
       "kind": "module",
+      "id": "clickhouse",
+      "version": "2.0.0",
+      "name": "ClickHouse",
+      "description": "Analytics queries with row and time limits. Read only.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-clickhouse-2.0.0/clickhouse-2.0.0.jar",
+        "sha256": "6d96274fb68686958dedceec2b82a52bdf846424e0e5688409b6a1c9d9ce69e9",
+        "size": 56688
+      },
+      "types": [
+        {
+          "id": "clickhouse",
+          "name": "ClickHouse",
+          "icon": "database",
+          "group": "Databases",
+          "description": "Analytics queries with row and time limits. Read only.",
+          "tools": [
+            "clickhouse_query",
+            "clickhouse_list_databases",
+            "clickhouse_list_tables",
+            "clickhouse_describe_table",
+            "clickhouse_explain",
+            "clickhouse_running_queries"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
       "id": "duckdb",
       "version": "1.1.0",
       "name": "DuckDB",
@@ -82,6 +146,37 @@
         "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-duckdb-1.1.0/duckdb-1.1.0.jar",
         "sha256": "be0e032554fa9f0d1fe392db336956b8cc006d14a6a55a9d9ce6ade93eda370a",
         "size": 33685915
+      },
+      "types": [
+        {
+          "id": "duckdb",
+          "name": "DuckDB",
+          "icon": "database",
+          "group": "Databases",
+          "description": "A DuckDB database file on this computer: read-only queries with row, memory and time limits; changes wait for approval.",
+          "tools": [
+            "duckdb_query",
+            "duckdb_list_tables",
+            "duckdb_describe_table",
+            "duckdb_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "duckdb",
+      "version": "2.0.0",
+      "name": "DuckDB",
+      "description": "A DuckDB database file on this computer: read-only queries with row, memory and time limits; changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-duckdb-2.0.0/duckdb-2.0.0.jar",
+        "sha256": "0371d4463c2c6b405b5e22f911d21b566195b820b929e5e7787a4a3eba304fd5",
+        "size": 33685424
       },
       "types": [
         {
@@ -132,6 +227,37 @@
     },
     {
       "kind": "module",
+      "id": "h2",
+      "version": "2.0.0",
+      "name": "H2",
+      "description": "An H2 database server: checked read-only queries with row and time limits, always rolled back; changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-h2-2.0.0/h2-2.0.0.jar",
+        "sha256": "2d5746837e3541de1e8f1649076911f62af96355db4333553b9b73bac043eeda",
+        "size": 2775027
+      },
+      "types": [
+        {
+          "id": "h2",
+          "name": "H2",
+          "icon": "database",
+          "group": "Databases",
+          "description": "An H2 database server: checked read-only queries with row and time limits, always rolled back; changes wait for approval.",
+          "tools": [
+            "h2_list_tables",
+            "h2_describe_table",
+            "h2_query",
+            "h2_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
       "id": "msaccess",
       "version": "1.1.0",
       "name": "Microsoft Access",
@@ -144,6 +270,37 @@
         "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-msaccess-1.1.0/msaccess-1.1.0.jar",
         "sha256": "a15b394cef4848ac55d00efdef9bfcb06b463bf649456bf82495e6f689878167",
         "size": 3566458
+      },
+      "types": [
+        {
+          "id": "msaccess",
+          "name": "Microsoft Access",
+          "icon": "database",
+          "group": "Databases",
+          "description": "A Microsoft Access .accdb or .mdb file on this computer: read-only queries with row and time limits; changes wait for approval.",
+          "tools": [
+            "access_list_tables",
+            "access_describe_table",
+            "access_query",
+            "access_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "msaccess",
+      "version": "2.0.0",
+      "name": "Microsoft Access",
+      "description": "A Microsoft Access .accdb or .mdb file on this computer: read-only queries with row and time limits; changes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-msaccess-2.0.0/msaccess-2.0.0.jar",
+        "sha256": "ee7828edd6d41c8f71e7e761281a8e6a8d9bce7a0ea01f28174d79562e5d0ce4",
+        "size": 3566052
       },
       "types": [
         {
@@ -193,6 +350,36 @@
     },
     {
       "kind": "module",
+      "id": "neo4j",
+      "version": "2.0.0",
+      "name": "Neo4j",
+      "description": "Cypher reads in read-only transactions, the graph's schema and its nodes and paths. Writes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-neo4j-2.0.0/neo4j-2.0.0.jar",
+        "sha256": "091ae870873d87bea90683f125c93ef74df1da9102bed4830ca51c2256c08f7d",
+        "size": 9427834
+      },
+      "types": [
+        {
+          "id": "neo4j",
+          "name": "Neo4j",
+          "icon": "waypoints",
+          "group": "Databases",
+          "description": "Cypher reads in read-only transactions, the graph's schema and its nodes and paths. Writes wait for approval.",
+          "tools": [
+            "neo4j_schema",
+            "neo4j_query",
+            "neo4j_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
       "id": "sql-oracle",
       "version": "1.0.0",
       "name": "Oracle Database",
@@ -224,6 +411,37 @@
     },
     {
       "kind": "module",
+      "id": "sql-oracle",
+      "version": "2.0.0",
+      "name": "Oracle Database",
+      "description": "Schemas, tables and queries on Oracle Database 19c and later. Writes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-sql-oracle-2.0.0/sql-oracle-2.0.0.jar",
+        "sha256": "36a226bda5edb57da0f4d3e5dac59f9a9030c4bce0aa78368f6e5338dd914fb3",
+        "size": 16529286
+      },
+      "types": [
+        {
+          "id": "oracle",
+          "name": "Oracle Database",
+          "icon": "database",
+          "group": "Databases",
+          "description": "Schemas, tables and queries on Oracle Database 19c and later. Writes wait for approval.",
+          "tools": [
+            "sql_list_schemas",
+            "sql_describe_table",
+            "sql_query",
+            "sql_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
       "id": "sql-sqlserver",
       "version": "1.0.0",
       "name": "SQL Server",
@@ -236,6 +454,37 @@
         "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-sql-sqlserver-1.0.0/sql-sqlserver-1.0.0.jar",
         "sha256": "8888f0d742722080c57eefe6601baec6b48715445e07c02901ec0dd50b16ccca",
         "size": 9222869
+      },
+      "types": [
+        {
+          "id": "sqlserver",
+          "name": "SQL Server",
+          "icon": "database",
+          "group": "Databases",
+          "description": "Microsoft SQL Server: schemas, tables and queries. Writes wait for approval.",
+          "tools": [
+            "sql_list_schemas",
+            "sql_describe_table",
+            "sql_query",
+            "sql_execute"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "sql-sqlserver",
+      "version": "2.0.0",
+      "name": "SQL Server",
+      "description": "Microsoft SQL Server: schemas, tables and queries. Writes wait for approval.",
+      "requires": {
+        "gateway": ">=0.9.2 & <1.0.0",
+        "connectorApi": ">=2.0.0 & <3.0.0"
+      },
+      "artifact": {
+        "url": "https://github.com/gaterook/gaterook-plugins/releases/download/module-sql-sqlserver-2.0.0/sql-sqlserver-2.0.0.jar",
+        "sha256": "f1f8383aed3798c1cceff0d3a0b21c6b02eceea58c3c65c960b152369134b6d7",
+        "size": 9220064
       },
       "types": [
         {
