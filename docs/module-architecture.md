@@ -104,7 +104,7 @@ The descriptor holds what the code doesn't say. It lies beside the module's `pom
   "description": "Greets by name and keeps one-line notes in its own folder.",
   "moduleClass": "com.example.hello.HelloModule",
   "requires": {
-    "gateway": ">=0.9.2 & <1.0.0",
+    "gateway": ">=2.0.0 & <3.0.0",
     "connectorApi": ">=2.0.0 & <3.0.0",
     "javaModules": []
   },

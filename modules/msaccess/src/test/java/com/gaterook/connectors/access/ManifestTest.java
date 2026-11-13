@@ -23,7 +23,7 @@ class ManifestTest {
   void theManifestParsesAndTheCodeServesExactlyItsTools() throws Exception {
     PluginManifest manifest = PluginManifest.parse(TestCalls.manifest());
     assertThat(manifest.id()).isEqualTo("msaccess");
-    assertThat(manifest.version()).isEqualTo("2.0.0");
+    assertThat(manifest.version()).isEqualTo("2.0.1");
     assertThat(manifest.name()).isEqualTo("Microsoft Access");
     assertThat(manifest.icon()).isEqualTo("database");
     assertThat(manifest.group()).isEqualTo("Databases");

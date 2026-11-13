@@ -31,7 +31,7 @@
 
   <properties>
     <!-- The version of module.json; tools/modules.mjs keeps the two equal. -->
-    <module.version>2.0.0</module.version>
+    <module.version>2.0.1</module.version>
   </properties>
 
   <dependencies>

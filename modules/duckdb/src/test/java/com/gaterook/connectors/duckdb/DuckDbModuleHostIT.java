@@ -51,7 +51,7 @@ import tools.jackson.databind.JsonNode;
  */
 class DuckDbModuleHostIT {
 
-  private static final String GENERATION = "duckdb@2.0.0";
+  private static final String GENERATION = "duckdb@2.0.1";
 
   @TempDir
   Path temp;
@@ -149,7 +149,7 @@ class DuckDbModuleHostIT {
   // ── The host ────────────────────────────────────────────────────────────────────────────────────────────────
 
   private static Path jar() {
-    return Path.of(System.getProperty("gateway.duckdbJar", "target/duckdb-2.0.0.jar"));
+    return Path.of(System.getProperty("gateway.duckdbJar", "target/duckdb-2.0.1.jar"));
   }
 
   private Messages.Loaded start(boolean sandbox) throws Exception {
@@ -184,7 +184,7 @@ class DuckDbModuleHostIT {
         throw new RpcException(Gpp.METHOD_NOT_FOUND, "No core method " + method + " in this test");
       }
     }, JsonRpcPeer.Options.defaults().name("core").strayLine(line -> stderr.add("stdout: " + line))).start();
-    await(peer.request(Gpp.HOST_HELLO, new Messages.Hello(Gpp.PROTOCOL, "0.9.2", ApiVersion.CURRENT, false,
+    await(peer.request(Gpp.HOST_HELLO, new Messages.Hello(Gpp.PROTOCOL, "2.0.0", ApiVersion.CURRENT, false,
         Gpp.MAX_FRAME_BYTES, 8, "info").write()), Duration.ofSeconds(30));
     Messages.Sandbox s = new Messages.Sandbox(sandbox, List.of(), List.of(dataDir.toString()));
     Path jar = jar().toAbsolutePath();

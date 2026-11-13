@@ -59,7 +59,7 @@ import tools.jackson.databind.node.ObjectNode;
  */
 class ClickHouseModuleHostIT {
 
-  private static final String GENERATION = "clickhouse@2.0.0";
+  private static final String GENERATION = "clickhouse@2.0.1";
   private static final List<Integer> CORE_PORTS = List.of(7465, 7466);
   private static final Limits DEV = new Limits(1000, 1000, 524_288, 1_048_576, 262_144, 65_536, 8192,
       Duration.ofSeconds(5), Duration.ofSeconds(30), Duration.ofSeconds(10), Duration.ofHours(168));
@@ -199,7 +199,7 @@ class ClickHouseModuleHostIT {
   // ── The host ────────────────────────────────────────────────────────────────────────────────────────────────
 
   private static Path jar() {
-    return Path.of(System.getProperty("gateway.clickhouseJar", "target/clickhouse-2.0.0.jar"));
+    return Path.of(System.getProperty("gateway.clickhouseJar", "target/clickhouse-2.0.1.jar"));
   }
 
   private static boolean mac() {
@@ -255,7 +255,7 @@ class ClickHouseModuleHostIT {
         };
       }
     }, JsonRpcPeer.Options.defaults().name("core").strayLine(line -> stderr.add("stdout: " + line))).start();
-    await(peer.request(Gpp.HOST_HELLO, new Messages.Hello(Gpp.PROTOCOL, "0.9.2", ApiVersion.CURRENT, false,
+    await(peer.request(Gpp.HOST_HELLO, new Messages.Hello(Gpp.PROTOCOL, "2.0.0", ApiVersion.CURRENT, false,
         Gpp.MAX_FRAME_BYTES, 8, "info").write()), Duration.ofSeconds(30));
     Messages.Sandbox s = new Messages.Sandbox(sandbox, List.of(), List.of(dataDir.toString()));
     Path jar = jar().toAbsolutePath();
